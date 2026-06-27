@@ -196,12 +196,13 @@ def get_latest_version():
 def get_current_version():
     if os.path.isfile("/opt/brave.com/brave-origin/brave"):
         try:
-            current_version = os.popen('/opt/brave.com/brave/brave --version | cut -d " " -f3 | cut -d "." -f 2-').read()
+            current_version = os.popen('/opt/brave.com/brave-origin/brave --version | cut -d " " -f3 | cut -d "." -f 2-').read()
         except:
             current_version = 'not found'
     else:
         current_version = 'not found'
     return current_version
+
 
 # Download the deb package
 def download_deb_package(ver):

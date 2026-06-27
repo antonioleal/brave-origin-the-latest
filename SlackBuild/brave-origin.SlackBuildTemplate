@@ -79,14 +79,11 @@ find -L . \
 
 cp -apr * $PKG/
 
-# make ELF libraries executable
-for f in libvulkan.so.1 libqt6_shim.so libqt5_shim.so libGLESv2.so libEGL.so libvk_swiftshader.so
-do
-    chmod +x $PKG/opt/brave.com/brave-origin/$f
-done
-
 # Slackware doesn't ship GNOME desktop
 rm -rf $PKG/usr/share/gnome-control-center
+
+# no automatic updates
+rm -rf $PKG/etc
 
 # move man pages into place
 mv $PKG/usr/share/man $PKG/usr/man
@@ -99,6 +96,8 @@ cp -a \
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs chmod 0755 2> /dev/null || true
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
